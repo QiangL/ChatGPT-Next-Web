@@ -71,30 +71,30 @@ export const ROLES: Message["role"][] = ["system", "user", "assistant"];
 const ENABLE_GPT4 = true;
 
 export const ALL_MODELS = [
-  {
-    name: "gpt-4",
-    available: ENABLE_GPT4,
-  },
-  {
-    name: "gpt-4-0314",
-    available: ENABLE_GPT4,
-  },
-  {
-    name: "gpt-4-32k",
-    available: ENABLE_GPT4,
-  },
-  {
-    name: "gpt-4-32k-0314",
-    available: ENABLE_GPT4,
-  },
+  // {
+  //   name: "gpt-4",
+  //   available: ENABLE_GPT4,
+  // },
+  // {
+  //   name: "gpt-4-0314",
+  //   available: ENABLE_GPT4,
+  // },
+  // {
+  //   name: "gpt-4-32k",
+  //   available: ENABLE_GPT4,
+  // },
+  // {
+  //   name: "gpt-4-32k-0314",
+  //   available: ENABLE_GPT4,
+  // },
   {
     name: "gpt-3.5-turbo",
     available: true,
   },
-  {
-    name: "gpt-3.5-turbo-0301",
-    available: true,
-  },
+  // {
+  //   name: "gpt-3.5-turbo-0301",
+  //   available: true,
+  // },
 ];
 
 export function limitNumber(
@@ -113,7 +113,7 @@ export function limitNumber(
 export function limitModel(name: string) {
   return ALL_MODELS.some((m) => m.name === name && m.available)
     ? name
-    : ALL_MODELS[4].name;
+    : ALL_MODELS[0].name;
 }
 
 export const ModalConfigValidator = {
@@ -121,21 +121,21 @@ export const ModalConfigValidator = {
     return limitModel(x);
   },
   max_tokens(x: number) {
-    return limitNumber(x, 0, 32000, 2000);
+    return limitNumber(x, 0, 12000, 200);
   },
   presence_penalty(x: number) {
     return limitNumber(x, -2, 2, 0);
   },
   temperature(x: number) {
-    return limitNumber(x, 0, 2, 1);
+    return limitNumber(x, 0, 1, 0.8);
   },
 };
 
 const DEFAULT_CONFIG: ChatConfig = {
   historyMessageCount: 4,
-  compressMessageLengthThreshold: 1000,
+  compressMessageLengthThreshold: 600,
   sendBotMessages: true as boolean,
-  submitKey: SubmitKey.CtrlEnter as SubmitKey,
+  submitKey: SubmitKey.Enter as SubmitKey,
   avatar: "1f603",
   fontSize: 14,
   theme: Theme.Auto as Theme,
@@ -146,8 +146,8 @@ const DEFAULT_CONFIG: ChatConfig = {
 
   modelConfig: {
     model: "gpt-3.5-turbo",
-    temperature: 1,
-    max_tokens: 2000,
+    temperature: 0.8,
+    max_tokens: 400,
     presence_penalty: 0,
   },
 };
@@ -332,7 +332,7 @@ export const useChatStore = create<ChatStore>()(
         const isLastSession = get().sessions.length === 1;
         if (!isMobileScreen() || confirm(Locale.Home.DeleteChat)) {
           get().removeSession(index);
-          
+
           showToast(Locale.Home.DeleteToast, {
             text: Locale.Home.Revert,
             onClick() {

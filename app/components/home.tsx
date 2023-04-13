@@ -119,9 +119,11 @@ function _Home() {
         className={styles.sidebar + ` ${showSideBar && styles["sidebar-show"]}`}
       >
         <div className={styles["sidebar-header"]}>
-          <div className={styles["sidebar-title"]}>ChatGPT Next</div>
+          <div className={styles["sidebar-title"]}>自用GPT</div>
           <div className={styles["sidebar-sub-title"]}>
-            Build your own AI assistant.
+            基于开源软件 ChatGPT Next Web(Yidadaa@github)
+            <br></br>
+            &#128151;感谢
           </div>
           <div className={styles["sidebar-logo"]}>
             <ChatGptIcon />
@@ -156,11 +158,11 @@ function _Home() {
                 shadow
               />
             </div>
-            <div className={styles["sidebar-action"]}>
+            {/* <div className={styles["sidebar-action"]}>
               <a href={REPO_URL} target="_blank">
                 <IconButton icon={<GithubIcon />} shadow />
               </a>
-            </div>
+            </div> */}
           </div>
           <div>
             <IconButton

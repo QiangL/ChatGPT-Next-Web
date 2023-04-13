@@ -11,9 +11,9 @@ export function middleware(req: NextRequest) {
   const token = req.headers.get("token");
   const hashedCode = md5.hash(accessCode ?? "").trim();
 
-  console.log("[Auth] allowed hashed codes: ", [...ACCESS_CODES]);
-  console.log("[Auth] got access code:", accessCode);
-  console.log("[Auth] hashed access code:", hashedCode);
+  // console.log("[Auth] allowed hashed codes: ", [...ACCESS_CODES]);
+  // console.log("[Auth] got access code:", accessCode);
+  // console.log("[Auth] hashed access code:", hashedCode);
 
   if (ACCESS_CODES.size > 0 && !ACCESS_CODES.has(hashedCode) && !token) {
     return NextResponse.json(
@@ -46,7 +46,7 @@ export function middleware(req: NextRequest) {
       );
     }
   } else {
-    console.log("[Auth] set user token");
+    //console.log("[Auth] set user token");
   }
 
   return NextResponse.next({

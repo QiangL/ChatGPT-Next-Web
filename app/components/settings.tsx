@@ -219,7 +219,7 @@ export function Settings(props: { closeSettings: () => void }) {
               </div>
             </Popover>
           </SettingItem>
-
+          {/* 
           <SettingItem
             title={Locale.Settings.Update.Version(currentId)}
             subTitle={
@@ -244,7 +244,7 @@ export function Settings(props: { closeSettings: () => void }) {
               />
             )}
           </SettingItem>
-
+ */}
           <SettingItem title={Locale.Settings.SendKey}>
             <select
               value={config.submitKey}
@@ -358,7 +358,7 @@ export function Settings(props: { closeSettings: () => void }) {
               }
             ></input>
           </SettingItem>
-
+          {/* 
           <SettingItem
             title={Locale.Settings.Prompt.List}
             subTitle={Locale.Settings.Prompt.ListCount(
@@ -372,8 +372,10 @@ export function Settings(props: { closeSettings: () => void }) {
               onClick={() => showToast(Locale.WIP)}
             />
           </SettingItem>
+           */}
         </List>
         <List>
+          {/*           
           {enabledAccessControl ? (
             <SettingItem
               title={Locale.Settings.AccessCode.Title}
@@ -390,22 +392,19 @@ export function Settings(props: { closeSettings: () => void }) {
             </SettingItem>
           ) : (
             <></>
-          )}
+          )} */}
 
-          <SettingItem
-            title={Locale.Settings.Token.Title}
-            subTitle={Locale.Settings.Token.SubTitle}
-          >
+          <SettingItem title={Locale.Settings.AccessCode.Title}>
             <PasswordInput
               value={accessStore.token}
               type="text"
-              placeholder={Locale.Settings.Token.Placeholder}
+              placeholder={Locale.Settings.AccessCode.Placeholder}
               onChange={(e) => {
                 accessStore.updateToken(e.currentTarget.value);
               }}
             />
           </SettingItem>
-
+          {/* 
           <SettingItem
             title={Locale.Settings.Usage.Title}
             subTitle={
@@ -429,7 +428,7 @@ export function Settings(props: { closeSettings: () => void }) {
               />
             )}
           </SettingItem>
-
+ */}
           <SettingItem
             title={Locale.Settings.HistoryCount.Title}
             subTitle={Locale.Settings.HistoryCount.SubTitle}
@@ -438,7 +437,7 @@ export function Settings(props: { closeSettings: () => void }) {
               title={config.historyMessageCount.toString()}
               value={config.historyMessageCount}
               min="0"
-              max="25"
+              max="10"
               step="1"
               onChange={(e) =>
                 updateConfig(
@@ -455,8 +454,8 @@ export function Settings(props: { closeSettings: () => void }) {
           >
             <input
               type="number"
-              min={500}
-              max={4000}
+              min={200}
+              max={2000}
               value={config.compressMessageLengthThreshold}
               onChange={(e) =>
                 updateConfig(
@@ -496,7 +495,7 @@ export function Settings(props: { closeSettings: () => void }) {
             <InputRange
               value={config.modelConfig.temperature?.toFixed(1)}
               min="0"
-              max="2"
+              max="1"
               step="0.1"
               onChange={(e) => {
                 updateConfig(
@@ -515,8 +514,8 @@ export function Settings(props: { closeSettings: () => void }) {
           >
             <input
               type="number"
-              min={100}
-              max={32000}
+              min={30}
+              max={12000}
               value={config.modelConfig.max_tokens}
               onChange={(e) =>
                 updateConfig(

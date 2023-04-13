@@ -2,6 +2,12 @@ import { createParser } from "eventsource-parser";
 import { NextRequest } from "next/server";
 import { requestOpenai } from "../common";
 
+async function handleResponse(res: Response) {
+  const responseBody = await res.text();
+  const modifiedBody = responseBody + "\n";
+  return modifiedBody;
+}
+
 async function createStream(req: NextRequest) {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
@@ -11,7 +17,7 @@ async function createStream(req: NextRequest) {
   const contentType = res.headers.get("Content-Type") ?? "";
   if (!contentType.includes("stream")) {
     const content = await (
-      await res.text()
+      await handleResponse(res)
     ).replace(/provided:.*. You/, "provided: ***. You");
     console.log("[Stream] error ", content);
     return "```json\n" + content + "```";
@@ -30,8 +36,18 @@ async function createStream(req: NextRequest) {
           try {
             const json = JSON.parse(data);
             const text = json.choices[0].delta.content;
-            const queue = encoder.encode(text);
-            controller.enqueue(queue);
+            if (text) {
+              // console.debug(text);
+              const queue = encoder.encode(text);
+              controller.enqueue(queue);
+            } else {
+              // console.log({ json });
+              const stop = json.choices[0].finish_reason;
+              if (stop === "stop") {
+                controller.close();
+                return;
+              }
+            }
           } catch (e) {
             controller.error(e);
           }
